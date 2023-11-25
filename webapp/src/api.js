@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3000";
+const baseURL = "https://quintal-tech-api.vercel.app";
 
 const api = axios.create({
   baseURL,
