@@ -64,7 +64,7 @@ export default {
         class="login__form-input"
         autocomplete="current-password"
         type="password"
-        placeholder="password"
+        placeholder="Senha"
         @keydown.enter="tryToLogIn"
       />
       <Button
