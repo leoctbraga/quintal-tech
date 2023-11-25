@@ -27,7 +27,12 @@ export default {
             : 'profit-table__amount--negative'
         "
       >
-        {{ row.amount }}
+        {{
+          new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(row.amount || 0)
+        }}
       </span>
     </template>
   </Table>

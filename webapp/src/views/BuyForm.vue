@@ -6,7 +6,7 @@ export default {
       form: {
         productId: null,
         amount: 1,
-        code: null,
+        productCode: null,
         description: null,
         unitValue: "",
       },
@@ -20,7 +20,7 @@ export default {
         const { data } = await this.$service.create({
           path: "produtos",
           data: {
-            code: this.form.code,
+            code: this.form.productCode,
             description: this.form.description,
           },
         });
@@ -40,36 +40,42 @@ export default {
           path: "compras",
           data: {
             ...this.form,
+            productCode: this.form.productCode || product.code,
             productDescription: this.form.description || product.description,
             productId: this.form.productId || product._id,
           },
+        });
+        await this.$service.patch({
+          path: "estoque",
+          id: this.form.productCode,
+          data: { value: Number(this.form.amount) },
         });
         this.clearForm();
       } catch (error) {
         console.error(error);
       }
     },
-    onCodeEnter(code) {
+    onCodeEnter(productCode) {
       this.errorMessage = null;
-      if (!code) {
+      if (!productCode) {
         this.clearForm();
 
         return;
       }
 
-      this.form.code = code;
+      this.form.productCode = productCode;
       setTimeout(() => {
-        if (code === this.form.code) {
+        if (productCode === this.form.productCode) {
           this.getProduct();
         }
       }, 300);
     },
     async getProduct() {
       try {
-        if (!this.form.code) return;
+        if (!this.form.productCode) return;
         const product = await this.$service.load({
           path: "produtos",
-          id: this.form.code,
+          id: this.form.productCode,
         });
 
         if (product) {
@@ -86,7 +92,7 @@ export default {
       this.form = {
         productId: null,
         amount: 1,
-        code: null,
+        productCode: null,
         description: null,
         unitValue: "",
       };
@@ -111,7 +117,7 @@ export default {
         </div>
         <div class="buy-form__product">
           <Input
-            :value="form.code"
+            :value="form.productCode"
             type="number"
             class="buy-form__form-input"
             placeholder="Código do produto"
@@ -121,14 +127,14 @@ export default {
             {{ errorMessage }}
           </span>
           <Input
-            v-if="form.code"
+            v-if="form.productCode"
             v-model="form.description"
             class="buy-form__form-input"
             placeholder="Descrição do produto"
             :readonly="!!form.productId"
           />
           <Input
-            v-if="form.code"
+            v-if="form.productCode"
             input-type="money"
             v-model="form.unitValue"
             class="buy-form__form-input"
@@ -166,7 +172,7 @@ export default {
       </div>
 
       <Button
-        :disabled="!form.code || !form.unitValue"
+        :disabled="!form.productCode || !form.unitValue"
         class="buy-form__form-button"
         button-type="primary"
         @click="saveBuy"

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Estoque = require("../models/Estoque"); // Adjust the path according to your project structure
+const Estoque = require("../models/Estoque");
 const connect = require("../db/Connect");
 
 router.get("/estoque", async (req, res) => {

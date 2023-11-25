@@ -51,13 +51,7 @@ export default {
             endDate: this.filter.endDate,
           },
         });
-        this.resultsByProduct = data.map((result) => ({
-          ...result,
-          amount: new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          }).format(result.amount || 0),
-        }));
+        this.resultsByProduct = data;
       } catch (error) {
         console.error(error);
       }

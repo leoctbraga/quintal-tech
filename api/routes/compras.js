@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Compra = require("../models/Compra"); // Adjust the path according to your project structure
+const Compra = require("../models/Compra");
 const connect = require("../db/Connect");
 
 router.post("/compras", (req, res) => {
